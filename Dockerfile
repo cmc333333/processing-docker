@@ -1,11 +1,14 @@
-FROM java:8-alpine
+FROM ubuntu:16.04
 
 WORKDIR /processing
-RUN apk add --update wget tar \
-    && wget --no-check-certificate http://download.processing.org/processing-3.1.1-linux64.tgz \
+RUN apt-get update \
+    && apt-get install -y wget libxext6 libxrender1 libxtst6 libxi6 libopenal1 \
+    && wget http://download.processing.org/processing-3.1.1-linux64.tgz \
     && tar -xzf processing-3.1.1-linux64.tgz \
-    && ln -s /processing/processing-3.1.1/processing-java processing-java \
-    && apk del --purge wget tar \
-    && rm -rf /var/cache/apk/*
+    && mv /processing/processing-3.1.1/* /processing/ \
+    && apt-get remove -y wget \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/processing/processing-java"]
