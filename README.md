@@ -9,3 +9,9 @@ pass in the following arguments when starting your application:
 ```
 
 Note that this will only work if your host environment is Linux.
+
+If you run into an error try running:
+```
+xhost local:root
+```
+first.
